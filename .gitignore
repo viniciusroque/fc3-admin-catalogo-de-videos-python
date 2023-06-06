@@ -1,0 +1,6 @@
+.history/
+.DS_Store
+*.pyc
+.docker/zsh/history/.zsh_history
+__pypackages__
+.pytest_cache
