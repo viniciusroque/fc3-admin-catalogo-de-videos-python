@@ -3,6 +3,7 @@ from datetime import datetime
 from dataclasses import FrozenInstanceError, is_dataclass
 
 from category.domain.entities import Category
+from category.domain.exceptions import CategoryException
 
 
 class TestCategoryUnit(unittest.TestCase):
@@ -43,3 +44,43 @@ class TestCategoryUnit(unittest.TestCase):
         with self.assertRaises(FrozenInstanceError) as assert_error:
             category = Category(name='test')
             category.name = 'fake name'
+
+    def test_category_update_without_name(self):
+        category = Category(name='test')
+        with self.assertRaises(CategoryException) as assert_error:
+            category.update(name='', description='')
+
+        self.assertEqual(assert_error.exception.args[0], 'Name is required')
+
+    def test_category_update_without_description(self):
+        category = Category(name='test')
+        with self.assertRaises(CategoryException) as assert_error:
+            category.update(name='Name', description='')
+
+        self.assertEqual(assert_error.exception.args[0], 'Description is required')
+
+    def test_category_update(self):
+        caterory = Category(name='test')
+
+        name = 'Test updated'
+        description = 'Description1'
+        caterory.update(name=name, description=description)
+
+        self.assertEqual(caterory.name, name)
+        self.assertEqual(caterory.description, description)
+
+    def test_category_activate(self):
+        category = Category(name='test', is_active=False)
+
+        self.assertFalse(category.is_active)
+        category.activate()
+
+        self.assertTrue(category.is_active)
+
+    def test_category_desactivate(self):
+        category = Category(name='test', is_active=True)
+
+        self.assertTrue(category.is_active)
+        category.desactivate()
+
+        self.assertFalse(category.is_active)
