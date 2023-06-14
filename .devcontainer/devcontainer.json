@@ -45,6 +45,7 @@
 				"sourcery.sourcery",
 				"sonarsource.sonarlint-vscode",
 				"vivaxy.vscode-conventional-commits",
+				"streetsidesoftware.code-spell-checker"
 			]
 		}
 	},

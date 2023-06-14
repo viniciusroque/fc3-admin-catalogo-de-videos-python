@@ -1,5 +1,6 @@
 from abc import ABC
 from dataclasses import asdict, dataclass, field
+from typing import Any
 
 from __seedwork.domain.value_objects import UniqueEntityId
 
@@ -15,6 +16,10 @@ class Entity(ABC):
     @property
     def id(self) -> str:
         return str(self.unique_entity_id)
+
+    def _set(self, name: str, value: Any):
+        object.__setattr__(self, name, value)
+        return self
 
     def to_dict(self):
         entity_dict = asdict(self)
